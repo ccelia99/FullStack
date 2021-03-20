@@ -3,19 +3,19 @@
 
 import React, {useState} from 'react'
 
+
 const DisplayHeader = props => <h1>{props.text}</h1>
 
-const Display = props => <div>
-  <div>
-    <p>{props.text} {props.value}</p>   
-  </div>
-</div>
+const Display = props => 
+  <div><p>{props.text} {props.value}</p></div>
 
-const Button = (props) => (
+const Statistics = props =>   
+<div><p>{props.text} {props.value}</p></div>
+
+const Button = (props) => 
   <button onClick={props.onClick}>
     {props.text}
   </button>
-)
 
 
 const App = props => {
@@ -23,43 +23,35 @@ const App = props => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const [statics, setStatics] = useState({
+    all: 0, average: 0, positive: 0
+  })
 
-  const [all, setAll] = useState(0)
-  const [average, setAverage]  = useState(0)
-  const [positive, setPositive] = useState(0)
-
+  
   const setValues = (value) => { 
     
-    if (value >= 0) {
+    if (value > 0) {
       setGood(good+1)
-      console.log('good')
-      console.log(good)
+      console.log('good: ', good)
     }
-    else if (value <= 0){
+    else if (value < 0){
       setBad(bad+1)
-      console.log('bad')
-      console.log(bad)
+      console.log('bad: ', bad)
     }
     else {
-      setBad(neutral+1)
-      console.log('neutral')
-      console.log(neutral)
+      setNeutral(neutral+1)
+      console.log('neutral: ', neutral)
     }
 
-    setAll(all+1)
-    
-    console.log('all')
-    console.log(all)
-    
-    console.log('average')
-    console.log(average)
-
-    setAverage((good-bad)/all)
-    console.log('new average')
-    console.log(average)   
-    
-    setPositive(good*100/all)
+    setStatics({...statics, 
+      all: statics.all+1, 
+      average: (good-bad)/statics.all, 
+      positive: good*100/statics.all })
+      console.log('all: ', statics.all)
+      console.log('average: ', statics.average)
+      console.log('positive: ', statics.positive)
   }
+    
 
    
 
@@ -73,9 +65,11 @@ const App = props => {
       <Display text='good' value={good} />
       <Display text='neutral' value={neutral} />
       <Display text='bad' value={bad} />
-      <Display text='all' value={all} />
-      <Display text='average' value={average} />
-      <Display text='positive' value={positive} />
+
+      <Statistics text='all' value={statics.all} />
+      <Statistics text='average' value={statics.average} />
+      <Statistics text='positive' value={statics.positive} />
+      
 
     </div>
   );
