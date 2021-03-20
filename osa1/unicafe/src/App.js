@@ -8,14 +8,28 @@ import React, {useState} from 'react'
 const DisplayHeader = props => <h1>{props.text}</h1>
 
 const Display = props => 
-  <div>{props.text} {props.value}</div>
+<>
+  <table>
+    <tbody>
+      <tr>
+        <td>{props.text}</td>
+        <td>{props.value}</td>
+      </tr>        
+    </tbody>
+  </table>
+</>    
+  
 
-const Statistics = (props) => {  
+const Statistics = (props) => {    
   return (
     <>
-      <StatisticLine text='all' value={props.statics.all} />
-      <StatisticLine text='average' value={props.statics.average} />
-      <StatisticLine text='positive' value={props.statics.positive} />
+      <table>
+        <tbody>
+          <tr><StatisticLine text='all' value={props.statics.all} /></tr> 
+          <tr><StatisticLine text='average' value={props.statics.average} /></tr>
+          <tr><StatisticLine text='positive' value={props.statics.positive} /></tr>                
+        </tbody>        
+      </table>
     </>
   )
 }
@@ -24,12 +38,15 @@ const Statistics = (props) => {
 //Presents statistics
 const StatisticLine = (props) =>   {  
   if (props.value === 0) {    
-    return(
-      <div>No feedback given</div>
+    return(     
+      <td>No feedback given</td>         
     )
   }  
   return (
-    <div><p>{props.text} {props.value}</p></div>
+    <>   
+      <td>{props.text}</td>
+      <td>{props.value}</td>
+    </>    
   )
 }
 
