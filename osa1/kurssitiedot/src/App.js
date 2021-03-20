@@ -1,5 +1,7 @@
 import React from 'react';
 
+
+
 const App = () => {
     const course = {
         name: 'Half Stack application development' ,
@@ -18,41 +20,42 @@ const App = () => {
             }
         ]
     }
-
-    const Header = () => {
+    const Header = props => {
         return (
             <h1>{course.name}</h1>
         )
     }
     
-
-    const Content = () => {
+    const Content = (props) => {
+        
         return(
             <>
-            <Part part={course.parts[0]}  />
-            <Part part={course.parts[1]}  />
-            <Part part={course.parts[2]}  />
-            </>
+                <Part part={course.parts[0]}  />
+                <Part part={course.parts[1]}  />
+                <Part part={course.parts[2]}  />    
+            </>            
         )
     }
-
+    
+    
     const Part = (props) => {
         return (
             <p>{props.part.name} {props.part.exercises}</p>
         )
-
+    
     }
-
+    
     const Total = (props) => {
         return(
             <p>Number of exercises {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises}</p>
         )
     }
+    
   
     return (
       <div>
         <Header course={course} />
-        <Content parts={course.parts} />
+        <Content parts={course.parts} />       
         <Total parts={course.parts} />
       </div>
     )

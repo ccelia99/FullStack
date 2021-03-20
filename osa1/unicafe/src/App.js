@@ -10,13 +10,24 @@ const DisplayHeader = props => <h1>{props.text}</h1>
 const Display = props => 
   <div>{props.text} {props.value}</div>
 
+const Statistics = (props) => {  
+  return (
+    <>
+      <StatisticLine text='all' value={props.statics.all} />
+      <StatisticLine text='average' value={props.statics.average} />
+      <StatisticLine text='positive' value={props.statics.positive} />
+    </>
+  )
+}
+
+
 //Presents statistics
-const StatisticLine = props =>   {
-  if (props.value === 0) {
+const StatisticLine = (props) =>   {  
+  if (props.value === 0) {    
     return(
       <div>No feedback given</div>
     )
-  }
+  }  
   return (
     <div><p>{props.text} {props.value}</p></div>
   )
@@ -41,16 +52,14 @@ const App = props => {
   const setValues = (value) => {     
     if (value > 0) {
       setGood(good+1)
-      console.log('good: ', good)
     }
     else if (value < 0){
       setBad(bad+1)
-      console.log('bad: ', bad)
     }
     else {
       setNeutral(neutral+1)
-      console.log('neutral: ', neutral)
     }
+
     setStatisValue()
   }
 
@@ -59,10 +68,8 @@ const App = props => {
     setStatics({...statics, 
       all: allValue, 
       average: (good-bad)/allValue, 
-      positive: good*100/allValue })
-      console.log('all: ', allValue)
-      console.log('average: ', statics.average)
-      console.log('positive: ', statics.positive)
+      positive: good*100/allValue 
+    })
   }
 
     
@@ -80,9 +87,7 @@ const App = props => {
       <Display text='neutral' value={neutral} />
       <Display text='bad' value={bad} />
 
-      <StatisticLine text='all' value={statics.all} />
-      <StatisticLine text='average' value={statics.average} />
-      <StatisticLine text='positive' value={statics.positive} />    
+      <Statistics statics={statics} />      
 
     </div>
   );
