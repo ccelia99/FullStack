@@ -1,5 +1,6 @@
-//React ei paivita kenttaa all heti, joten average ja positive laskut menevat ekasta
-//klikkauksesta pieleen
+//React does not update the state immediately.
+//the first clinking goes wrong
+
 
 import React, {useState} from 'react'
 
@@ -9,7 +10,8 @@ const DisplayHeader = props => <h1>{props.text}</h1>
 const Display = props => 
   <div>{props.text} {props.value}</div>
 
-const Statistics = props =>   {
+//Presents statistics
+const StatisticLine = props =>   {
   if (props.value === 0) {
     return(
       <div>No feedback given</div>
@@ -36,8 +38,7 @@ const App = props => {
   })
 
   
-  const setValues = (value) => { 
-    
+  const setValues = (value) => {     
     if (value > 0) {
       setGood(good+1)
       console.log('good: ', good)
@@ -50,19 +51,21 @@ const App = props => {
       setNeutral(neutral+1)
       console.log('neutral: ', neutral)
     }
+    setStatisValue()
+  }
 
+  const setStatisValue = () => {
+    const allValue = statics.all+1
     setStatics({...statics, 
-      all: statics.all+1, 
-      average: (good-bad)/statics.all, 
-      positive: good*100/statics.all })
-      console.log('all: ', statics.all)
+      all: allValue, 
+      average: (good-bad)/allValue, 
+      positive: good*100/allValue })
+      console.log('all: ', allValue)
       console.log('average: ', statics.average)
       console.log('positive: ', statics.positive)
   }
+
     
-
-   
-
   return (
     <div>
       <DisplayHeader text='give feedback' />
@@ -77,9 +80,9 @@ const App = props => {
       <Display text='neutral' value={neutral} />
       <Display text='bad' value={bad} />
 
-      <Statistics text='all' value={statics.all} />
-      <Statistics text='average' value={statics.average} />
-      <Statistics text='positive' value={statics.positive} />    
+      <StatisticLine text='all' value={statics.all} />
+      <StatisticLine text='average' value={statics.average} />
+      <StatisticLine text='positive' value={statics.positive} />    
 
     </div>
   );
