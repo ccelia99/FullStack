@@ -7,10 +7,18 @@ import React, {useState} from 'react'
 const DisplayHeader = props => <h1>{props.text}</h1>
 
 const Display = props => 
-  <div><p>{props.text} {props.value}</p></div>
+  <div>{props.text} {props.value}</div>
 
-const Statistics = props =>   
-<div><p>{props.text} {props.value}</p></div>
+const Statistics = props =>   {
+  if (props.value === 0) {
+    return(
+      <div>No feedback given</div>
+    )
+  }
+  return (
+    <div><p>{props.text} {props.value}</p></div>
+  )
+}
 
 const Button = (props) => 
   <button onClick={props.onClick}>
@@ -58,18 +66,20 @@ const App = props => {
   return (
     <div>
       <DisplayHeader text='give feedback' />
+
       <Button onClick={() => setValues(1)} text='Good'/>
       <Button onClick={() => setValues(0)} text='Neutral' />
       <Button onClick={() => setValues(-1) } text='Bad' />
+
       <DisplayHeader  text='statistics' />
+
       <Display text='good' value={good} />
       <Display text='neutral' value={neutral} />
       <Display text='bad' value={bad} />
 
       <Statistics text='all' value={statics.all} />
       <Statistics text='average' value={statics.average} />
-      <Statistics text='positive' value={statics.positive} />
-      
+      <Statistics text='positive' value={statics.positive} />    
 
     </div>
   );
