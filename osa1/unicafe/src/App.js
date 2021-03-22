@@ -1,6 +1,8 @@
 //React does not update the state immediately.
 //the first clinking goes wrong
 
+//
+
 
 import React, {useState} from 'react'
 
@@ -66,6 +68,7 @@ const App = props => {
   })
 
   
+  //set values for Good, Bad and Neutral
   const setValues = (value) => {     
     if (value > 0) {
       setGood(good+1)
@@ -80,6 +83,7 @@ const App = props => {
     setStatisValue()
   }
 
+  //Counts and set values for statistics
   const setStatisValue = () => {
     const allValue = statics.all+1
     setStatics({...statics, 
