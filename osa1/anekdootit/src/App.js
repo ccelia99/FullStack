@@ -1,9 +1,7 @@
-//React does not update the state immediately.
-//the first clinking goes wrong
-//"setMostVoted" in function "findMostVoted" don't manage to set "index" state
-//and if I change it so that "max" state is set first, the index will be updated, but
-//not max.
-//I checked some solutions, but didn't find anything fast ans simple, so I just notice the
+//React does not update the state immediately,
+//the first click goes wrong, when voting
+//"index" and "max" fields in mostVoted are one click behind
+//I checked some solutions on Internet, but didn't find anything fast ans simple, so I just notice the
 //issue here.
 
 import React, {useState} from 'react'
@@ -65,11 +63,10 @@ const App = props => {
         maxV = copyArray[i]
         indexV = i
       }
-    }
+    }    
     
-    setMostVoted({...mostVoted, index: indexV})
-    setMostVoted({...mostVoted, max: maxV})
-
+    setMostVoted({...mostVoted, index: indexV,max: maxV})
+   
     console.log('index V ', indexV)    
     console.log('index ', mostVoted.index)    
     console.log('max V ', maxV)    
