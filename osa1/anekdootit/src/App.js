@@ -1,3 +1,11 @@
+//React does not update the state immediately.
+//the first clinking goes wrong
+//"setMostVoted" in function "findMostVoted" don't manage to set "index" state
+//and if I change it so that "max" state is set first, the index will be updated, but
+//not max.
+//I checked some solutions, but didn't find anything fast ans simple, so I just notice the
+//issue here.
+
 import React, {useState} from 'react'
 
 const Button = (props) => 
@@ -24,35 +32,58 @@ const App = props => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
   ]
   
-  const [selected, setSelected] = useState(0)
+  const [selected, setSelected] = useState(0)  
+  const [mostVoted, setMostVoted]  = useState({max: 0, index: 0})  
   const [voteArray, setVoteArray] = useState(Array(6).fill(0))
-  
-  
+
+
+  //valitaan random-anekdootti anekdotes-taulukosta
+  //ja talletetaan se selected-muuttojan arvoksi
   const setAnecdote = () => {
     const randNum = Math.floor(Math.random() * 6)
     setSelected(randNum)    
+  }
+
+
+  //lisataan voteArray taulukkoon uusi vote-arvo
+  const setVote = (selected) => {   
     
-    console.log('anekdootin numero ', randNum)  
+    const copyArray = [...voteArray]     
+    copyArray[selected] += 1
+    setVoteArray(copyArray)  
+
+    findMostVoted()
   }
 
-  const setVote = (value) => {    
-    let copyArray = {...voteArray}    
-    let copyItem = voteArray[selected]    
-    copyItem +=1    
-    copyArray[selected] = copyItem
-    setVoteArray(copyArray)
+  //etsitaan voteArraysta suurin arvo
+  const findMostVoted = () => {       
+    const copyArray = [...voteArray]
+    let maxV=0, indexV=0
 
-    console.log('voteArray', voteArray)   
+    for (let i=0; i<copyArray.length; i++) {
+      if (copyArray[i] > maxV) {
+        maxV = copyArray[i]
+        indexV = i
+      }
+    }
+    
+    setMostVoted({...mostVoted, index: indexV})
+    setMostVoted({...mostVoted, max: maxV})
+
+    console.log('index V ', indexV)    
+    console.log('index ', mostVoted.index)    
+    console.log('max V ', maxV)    
+    console.log('max ', mostVoted.max)  
   }
-
-
 
   return (
     <div>
       <DisplayHeader text='Anecdote of the day' />      
       <Display text={anecdotes[selected]} vote={voteArray[selected]} /> 
       <Button onClick={() => setVote(selected)} text='vote'/>
-      <Button onClick={() => setAnecdote()} text='next anecdote'/>        
+      <Button onClick={() => setAnecdote()} text='next anecdote'/>  
+      <DisplayHeader text='Anecdote with most votes' /> 
+      <Display text={anecdotes[mostVoted.index]} vote={mostVoted.max} />        
     </div>
   );
 }
