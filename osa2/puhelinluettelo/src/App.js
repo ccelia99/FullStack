@@ -3,22 +3,31 @@ import Note from './components/Note'
 
 const App = () => {
   const [person, setPerson] = useState([
-    {name: 'Arto Hellas'}
+    {name: 'John Doe'}
   ])
 const [newName, setName] = useState('')
 
 const addName = (event) => {
-  event.preventDefault()
-  console.log('button clicked', event.target)
+  event.preventDefault() 
   const nameObject = {
     name: newName    
   }
-  setPerson(person.concat(nameObject))
-  setName(' ')
+  let found = person.some(p => p.name === newName)
+  
+ 
+  if (found) {
+    console.log('found the name')
+    window.alert(`${newName} is already added to phonebook`)    
+  }
+  else { 
+    console.log('new name')
+    setPerson(person.concat(nameObject))    
+  }
+  setName('')   
+   
 }
 
-const handleNameChange = (event) => {
-  console.log('event', event.target.value)
+const handleNameChange = (event) => {  
   setName(event.target.value)
 }
 
