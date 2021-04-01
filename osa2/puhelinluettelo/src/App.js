@@ -3,19 +3,25 @@ import Note from './components/Note'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import axios from 'axios'
 
 
 const App = () => {
-  const [person, setPerson] = useState([
-    {name: 'John Doe', number: '040-1231244'},
-    {name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ])
+  const [person, setPerson] = useState([])
   const [newName, setNewName] = useState({name: '', number: ''})
   const [filteredPerson, setFilteredPerson] = useState([''])
   const [searchTerm, setSearchTerm] = useState('')
+
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        setPerson(response.data)
+      })
+  }, [])
+  console.log('render', person.length, 'persons')
 
 
   useEffect( () => { 
@@ -38,20 +44,10 @@ const App = () => {
   
     if (person.some(p => p.name === newName.name)  
     ) {
-      console.log('found the name')
       window.alert(`${newName.name} is already added to phonebook`)    
     }
     else { 
-      console.log('new name')
-      setPerson(person.concat(nameObject))
-      
-      //Clear the name and number fields
-      setNewName({name: '', number: ''})
-      console.log('newName', newName.name)
-      setNewName({...newName, name: '' })        
-      console.log('newName', newName.name)
-      setNewName('')        
-      console.log('newName', newName.name)      
+      setPerson(person.concat(nameObject))        
     }  
   }
 
