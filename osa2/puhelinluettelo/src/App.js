@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react'
-import Note from './components/Note'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
