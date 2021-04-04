@@ -4,29 +4,28 @@ import TenCountries from './TenCountries'
 
 const CountryList = (props) => {
     
-    let print = ''
-    
-    if (props.list.length > 10) {
-        
-        print = 'Too many matches, specify anther filter'
-    }
-    else 
-        if (props.list.length > 1) {
-            print = props.list.map( note => 
-                <TenCountries key={note.name} note={note} />  
-            )
-        }
-        else {            
-            print = props.list.map( note =>
-                <Country key={note.name} note={note} />  
-            )          
-        }
+    const listLenght = props.list.length
 
-    return (
-    <div>
-      <ul>
-        {print}
-      </ul>
-    </div>
-  )}
+    switch (true) {
+        default :
+            return (null)
+
+        case ( listLenght === 1) :
+            return (
+                props.list.map( note =>
+                    <Country key={note.name} note={note} />  
+                )
+            )
+        case ( listLenght < 11) :
+            return (
+                props.list.map( note => 
+                    <TenCountries key={note.name} note={note} />  
+                )
+            )
+        case ( listLenght > 10) :
+            return (
+                'Too many matches, specify anther filter'
+            )
+    }
+  }
   export default CountryList

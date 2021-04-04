@@ -36,7 +36,7 @@ function App() {
   return (
     <div >
       <Filter searchTerm={searchTerm} onChange={handleSearchTerm} /> 
-      <CountryList list={filteredCountries} />
+      {countries && <CountryList list={filteredCountries} />}
     </div>
   );
 }

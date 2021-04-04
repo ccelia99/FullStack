@@ -1,9 +1,18 @@
 import React from 'react'
 
+const ListLanguages = ({note}) => {
+   const list = note.languages.map( l =>
+        <li key={l.name}>{ l.name}</li>
+    )    
+    
+   console.log('mapping languages ', note.languages)
+   return (<ul>{list}</ul>)
+   }
+
 const Country = ({note}) => {
 
     let countryFlag = note.flag           
-    console.log('lippu', countryFlag)   
+    console.log('flag', countryFlag)   
     return (
       
         <>
@@ -12,9 +21,7 @@ const Country = ({note}) => {
             <div>Population {note.population} </div>
             <h2>Languages</h2>
             <div>
-                {note.languages.map( l =>
-                    <li>{ l.name}</li>
-                )}                      
+                {note && <ListLanguages note={note} />}
             </div>
             <div>
                 {<img src={countryFlag} width='100' alt='new' /> }
