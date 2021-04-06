@@ -3,12 +3,14 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personService from './services/person'
+import Notification from './Notification'
 
 const App = () => {
   const [person, setPerson] = useState([])
   const [newName, setNewName] = useState({name: '', number: ''})
   const [filteredPerson, setFilteredPerson] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     personService
@@ -41,12 +43,22 @@ const App = () => {
         personService
           .update(id, nameObject)
           .then(returnedNote => {
+            
+            setErrorMessage(
+              `Changed the number of ${newName.name}`
+            )
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
             setPerson(person.map(note => note.id !== id ? note : returnedNote))
         })
         .catch(error => {
-          alert(
-            `${error} error`
+          setErrorMessage(
+            `Error ${error}`
           )
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
           setPerson(person.filter(n => n.id !== id))
         })          
       }
@@ -55,6 +67,12 @@ const App = () => {
       personService
       .create(nameObject)
       .then(returnedPerson => {
+        setErrorMessage(
+          `Added ${newName.name}`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
         setPerson(person.concat(returnedPerson))
         setNewName({name: '', number: ''})                  
       })
@@ -75,6 +93,13 @@ const App = () => {
     if (window.confirm(`Do you really want to delete ${note.name}?`)) {
       personService
         .deletePerson(note.id)
+
+      setErrorMessage(
+        `Deleted ${note.name}`
+      )
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
       setPerson(person.filter(n => n.id !== note.id))
     }       
   }
@@ -87,6 +112,7 @@ const App = () => {
   return (
     <div >
       <h2>Phonebook</h2>
+      <Notification message={errorMessage} />
       <Filter searchTerm={searchTerm} onChange={handleSearchTerm} /> 
 
       <h3>Add a new</h3>  
