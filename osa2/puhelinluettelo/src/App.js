@@ -56,6 +56,14 @@ const App = () => {
     })
   }
 
+  const handleDeletePerson = (note) => {   
+    if (window.confirm(`Do you really want to delete ${note.name}?`)) {
+      personService
+        .deletePerson(note.id)
+      setPerson(person.filter(n => n.id !== note.id))
+    }       
+  }
+
   const handleSearchTerm = (event) => {
     setSearchTerm(event.target.value)
     console.log('person', person)   
@@ -70,7 +78,7 @@ const App = () => {
       <PersonForm onSubmit={addName} onChange={handleAddPerson} />
       
       <h2>Numbers</h2>
-      <Persons list={filteredPerson} />
+      <Persons list={filteredPerson} onClick={handleDeletePerson} />
     </div>
   );
 }

@@ -5,7 +5,7 @@ const Persons = (props) => (
     <div>
       <ul>
         {props.list.map( note => 
-            <Note key={note.name} note={note} />        
+            <Note key={note.name} note={note} onClick={props.onClick} />        
           )}  
       </ul>
     </div>
