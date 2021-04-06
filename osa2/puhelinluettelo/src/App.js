@@ -51,17 +51,17 @@ const App = () => {
               setErrorMessage(null)
             }, 5000)
             setPerson(person.map(note => note.id !== id ? note : returnedNote))
-        })
-        .catch(error => {
-          setErrorMessage(
-            `Error ${error}`
-          )
-          setTimeout(() => {
-            setErrorMessage(null)
-          }, 5000)
-          setPerson(person.filter(n => n.id !== id))
-        })          
-      }
+          })
+          .catch(error => {
+            setErrorMessage(
+              `Information of  ${newName.name} has already been removed from server`
+            )
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
+            setPerson(person.filter(n => n.id !== id))
+          })
+        }
     }
     else { 
       personService
@@ -101,6 +101,16 @@ const App = () => {
         setErrorMessage(null)
       }, 5000)
       setPerson(person.filter(n => n.id !== note.id))
+
+      /*.catch(error => {
+        setErrorMessage(
+          `Information of  ${note.name} has already been removed from server`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+        
+      })  */    
     }       
   }
 
