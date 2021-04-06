@@ -2,39 +2,30 @@ import React, {useState, useEffect} from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
-import axios from 'axios'
-
+import personService from './services/person'
 
 const App = () => {
   const [person, setPerson] = useState([])
   const [newName, setNewName] = useState({name: '', number: ''})
-  const [filteredPerson, setFilteredPerson] = useState([''])
+  const [filteredPerson, setFilteredPerson] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPerson(response.data)
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPerson(initialPersons)
       })
   }, [])
-  console.log('render', person.length, 'persons')
 
 
-  useEffect( () => { 
-    const results = person.filter( p =>
-      p.name.toLowerCase().includes(searchTerm) )
-      
-    console.log('tulosArray ', results)
-    console.log('person ', person)
-
-    setFilteredPerson(results)
-  },[searchTerm, person] )
-
+  useEffect( () => {       
+      const results = person.filter( p =>
+        p.name.toLowerCase().includes(searchTerm) )      
+      setFilteredPerson(results)      
+  },[person,searchTerm] )
+  
   const addName = (event) => {
-    console.log('tuliko nimi addNameen ', newName.name)
     event.preventDefault() 
     const nameObject = {
       name: newName.name,
@@ -46,13 +37,16 @@ const App = () => {
       window.alert(`${newName.name} is already added to phonebook`)    
     }
     else { 
-      setPerson(person.concat(nameObject))        
+      personService
+      .create(nameObject)
+      .then(returnedPerson => {
+        setPerson(person.concat(returnedPerson))
+        setNewName({name: '', number: ''})                  
+      })
+      
+      console.log('newName', newName.name )           
     }  
   }
-
-  useEffect( () => { 
-    console.log('newName', newName.name)
-  },[newName] )
 
   const handleAddPerson = (event) => {
     console.log('event.target.name ', event.target.name) 
@@ -64,6 +58,7 @@ const App = () => {
 
   const handleSearchTerm = (event) => {
     setSearchTerm(event.target.value)
+    console.log('person', person)   
   }
 
   return (

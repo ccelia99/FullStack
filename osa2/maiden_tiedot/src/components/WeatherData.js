@@ -5,7 +5,7 @@ const WeatherData = ({note}) => {
 
     const api_key = process.env.REACT_APP_WEATHER_API_KEY
     
-    const weatherApi = 'https://api.openweathermap.org/data/2.5/weather?q=' + note.capital + '&units=metric&appid='+ api_key
+    const weatherApi = `https://api.openweathermap.org/data/2.5/weather?q=${note.capital} &units=metric&appid=${api_key}`
     const [weather, setWeather] = useState([])
 
     console.log(weatherApi)
